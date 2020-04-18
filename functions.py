@@ -75,7 +75,7 @@ def check_malware(task_id, res):
         virustotal_res['msg'] = 'No virustotal scans found'
 
     cuckoo_res = {
-        'is_malware': task_info['score'] > 0,
+        'is_malware': int(task_info['score'] > 0),
         'score': task_info['score'],
         'msg': ''
     }
