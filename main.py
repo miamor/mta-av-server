@@ -40,6 +40,21 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+
+@app.route('/download-file', methods= ['GET'])
+def download_file():
+    path = 'Update/'
+    lstFile = os.listdir(path)
+    print(lstFile)
+    date = str(datetime.datetime.now().strftime('%d-%m-%Y'))
+    print(date)
+    for item in lstFile:
+        print(item.split('.')[0])
+        if (date == item.split('.')[0]):
+            return send_file(item, as_attachment=True)
+    abort(404, 'not available')
+
+
 @app.route("/upload-multiple", methods=["POST"])
 def upload_file_multiple():
     # check if the post request has the file part
