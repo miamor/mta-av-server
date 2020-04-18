@@ -139,9 +139,9 @@ def upload_file_multiple():
             # for i,file in enumerate(sorted(files)):
                 # task_id = task_ids[i]
                 file = map_task_file[task_id]
-                if labels[i] == 1 and scores[i] < 0.75:
-                    labels[i] = 0
-                    scores[i] = -scores[i]
+                # if labels[i] == 1 and scores[i] < 0.65:
+                #     labels[i] = 0
+                #     scores[i] = -scores[i]
                 __res__.add_response(task_id, file.filename, hash_type, hash_value, labels[i], scores[i], 'HAN_sec')
 
 
