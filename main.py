@@ -45,14 +45,11 @@ def allowed_file(filename):
 def download_file():
     path = 'Update/'
     lstFile = os.listdir(path)
-    print(lstFile)
     date = str(datetime.datetime.now().strftime('%d-%m-%Y'))
-    print(date)
     for item in lstFile:
-        print(item.split('.')[0])
+        #print(item.split('.')[0])
         if (date == item.split('.')[0]):
-            return send_file(item, as_attachment=True)
-    abort(404, 'not available')
+            return send_file(os.path.join(path, item), as_attachment=True)
 
 
 @app.route("/upload-multiple", methods=["POST"])
