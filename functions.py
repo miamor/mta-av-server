@@ -1,6 +1,6 @@
 import requests
 import sys
-sys.path.insert(0, '/media/fitmta/Storage/MinhTu/HAN_sec_new')
+sys.path.insert(0, '/home/mtaav/CODE/HAN_sec_new')
 import han_sec_api as han
 
 cuckoo_API = 'http://localhost:1337'
@@ -90,7 +90,7 @@ def check_malware(task_id, res):
 def check_malware_HAN(task_ids):
     num_task = len(task_ids)
     # data, args = prepare_files([9])
-    data, args = han.prepare_files(task_ids)
+    data, args = han.prepare_files(task_ids, cuda=False)
     print('*** data', data)
     if data is None:
         print('Graph can\'t be created!')
@@ -98,7 +98,7 @@ def check_malware_HAN(task_ids):
     else:
         print('task_ids', task_ids)
         print('len data', len(data))
-        labels, scores = han.predict_files(data, args)
+        labels, scores = han.predict_files(data, args, cuda=False)
         labels = labels.cpu().numpy().tolist()
         scores = scores.cpu().numpy().tolist()
         print('labels, scores', labels, scores)
