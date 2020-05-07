@@ -1,6 +1,6 @@
 import requests
 import sys
-sys.path.insert(0, '/media/fitmta/Storage/MinhTu/HAN_sec_new')
+sys.path.insert(0, '/media/tunguyen/Devs/Security/HAN_sec_new')
 import han_sec_api as han
 
 cuckoo_API = 'http://localhost:1337'

@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 import functions as fcn
 from functions import hash_type
 import time
+import config as cf
 
 ALLOWED_EXTENSIONS = set(['exe', 'cpl', 'reg', 'ini', 'bat', 'com', 'dll', 'pif', 'lnk', 'scr', 'vbs', 'ocx', 'drv', 'sys', 'ods'])
 
@@ -141,4 +142,4 @@ def upload_file_multiple():
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.1.106', port=5001)
+    app.run(host=cf.host, port=cf.port)
