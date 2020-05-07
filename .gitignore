@@ -3,3 +3,4 @@ config.py
 api_tasks
 data
 uploads
+__pycache__

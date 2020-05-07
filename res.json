@@ -1,0 +1,47 @@
+{
+    "status": "success",
+    "status_msg": {
+        "7": {
+            "HAN_sec": {
+                "is_malware": 0,
+                "msg": "",
+                "score": 0.898959755897522
+            },
+            "cuckoo": {
+                "is_malware": false,
+                "msg": "",
+                "score": 0.0
+            },
+            "filename": "Microsoft.Build.Conversion.v4.0.dll",
+            "hash_type": "sha256",
+            "hash_value": "6009c8f05d9b3fa9752a431e079991552c4ee47cab801619e9338a9eae81a47a",
+            "is_malware": false,
+            "virustotal": {
+                "is_malware": 0,
+                "msg": "0/61 engines detected as malware",
+                "score": 0.0
+            }
+        },
+        "8": {
+            "HAN_sec": {
+                "is_malware": 0,
+                "msg": "",
+                "score": 0.898959755897522
+            },
+            "cuckoo": {
+                "is_malware": false,
+                "msg": "",
+                "score": 0.0
+            },
+            "filename": "Microsoft.Build.Tasks.v4.0.dll",
+            "hash_type": "sha256",
+            "hash_value": "8319620ef07688fa88d399f38042071cb54a7e1b2b23775b72557c183405a8ca",
+            "is_malware": false,
+            "virustotal": {
+                "is_malware": 0,
+                "msg": "0/69 engines detected as malware",
+                "score": 0.0
+            }
+        }
+    }
+}

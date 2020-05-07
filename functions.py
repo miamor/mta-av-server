@@ -1,16 +1,14 @@
 import requests
+import config as cf
 import sys
-sys.path.insert(0, '/media/tunguyen/Devs/Security/HAN_sec_new')
+sys.path.insert(0, cf.__ROOT__)
 import han_sec_api as han
 
-cuckoo_API = 'http://localhost:1337'
-SECRET_KEY = "Bearer RALTrRjHNT21MZdDCksugg"
-hash_type = 'sha256'
 # set CONFIG_PATH in han_sec_api
 
 def start_analysis(filepath):
-    REST_URL = cuckoo_API+"/tasks/create/file"
-    HEADERS = {"Authorization": SECRET_KEY}
+    REST_URL = cf.cuckoo_API+"/tasks/create/file"
+    HEADERS = {"Authorization": cf.SECRET_KEY}
 
     with open(filepath, "rb") as sample:
         files = {"file": ("temp_file_name", sample)}
@@ -25,8 +23,8 @@ def start_analysis(filepath):
 
 
 def get_task_status(task_id):
-    REST_URL = cuckoo_API+"/tasks/view/{}".format(task_id)
-    HEADERS = {"Authorization": SECRET_KEY}
+    REST_URL = cf.cuckoo_API+"/tasks/view/{}".format(task_id)
+    HEADERS = {"Authorization": cf.SECRET_KEY}
 
     r = requests.get(REST_URL, headers=HEADERS)
 
@@ -34,15 +32,15 @@ def get_task_status(task_id):
     print('task', task)
 
     if 'errors' in task:
-        return task['status'], task['errors'], task['sample'][hash_type]
+        return task['status'], task['errors'], task['sample'][cf.hash_type]
     
     return None, None, None
 
 
 
 def check_malware(task_id, res):
-    REST_URL = cuckoo_API+"/tasks/report/{}".format(task_id)
-    HEADERS = {"Authorization": SECRET_KEY}
+    REST_URL = cf.cuckoo_API+"/tasks/report/{}".format(task_id)
+    HEADERS = {"Authorization": cf.SECRET_KEY}
 
     r = requests.get(REST_URL, headers=HEADERS)
 
@@ -75,7 +73,7 @@ def check_malware(task_id, res):
         virustotal_res['msg'] = 'No virustotal scans found'
 
     cuckoo_res = {
-        'is_malware': task_info['score'] > 0,
+        'is_malware': int(task_info['score'] > 0),
         'score': task_info['score'],
         'msg': ''
     }
@@ -90,7 +88,7 @@ def check_malware(task_id, res):
 def check_malware_HAN(task_ids):
     num_task = len(task_ids)
     # data, args = prepare_files([9])
-    data, args = han.prepare_files(task_ids)
+    data, args = han.prepare_files(task_ids, cuda=False)
     print('*** data', data)
     if data is None:
         print('Graph can\'t be created!')
@@ -98,7 +96,7 @@ def check_malware_HAN(task_ids):
     else:
         print('task_ids', task_ids)
         print('len data', len(data))
-        labels, scores = han.predict_files(data, args)
+        labels, scores = han.predict_files(data, args, cuda=False)
         labels = labels.cpu().numpy().tolist()
         scores = scores.cpu().numpy().tolist()
         print('labels, scores', labels, scores)

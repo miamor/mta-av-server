@@ -4,7 +4,6 @@ from app import app
 from flask import Flask, request, redirect, jsonify
 from werkzeug.utils import secure_filename
 import functions as fcn
-from functions import hash_type
 import time
 import config as cf
 
@@ -39,6 +38,18 @@ class Response(object):
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+
+@app.route('/download-file', methods= ['GET'])
+def download_file():
+    path = 'Update/'
+    lstFile = os.listdir(path)
+    date = str(datetime.datetime.now().strftime('%d-%m-%Y'))
+    for item in lstFile:
+        #print(item.split('.')[0])
+        if (date == item.split('.')[0]):
+            return send_file(os.path.join(path, item), as_attachment=True)
 
 
 @app.route("/upload-multiple", methods=["POST"])
@@ -101,7 +112,7 @@ def upload_file_multiple():
             obj_res = fcn.check_malware(task_id, __res__)
             for engine_name in obj_res:
                 engine_res = obj_res[engine_name]
-                __res__.add_response(task_id, file.filename, hash_type, hash_value, engine_res['is_malware'], engine_res['score'], engine_name, engine_res['msg'])
+                __res__.add_response(task_id, file.filename, cf.hash_type, hash_value, engine_res['is_malware'], engine_res['score'], engine_name, engine_res['msg'])
 
         else:
             resp = jsonify(
@@ -119,16 +130,16 @@ def upload_file_multiple():
     if labels is not None:
         if msg is not None:
             for i, task_id in enumerate(task_ids):
-                __res__.add_response(task_id, file.filename, hash_type, hash_value, labels[i], scores[i], 'HAN_sec', msg[i])
+                __res__.add_response(task_id, file.filename, cf.hash_type, hash_value, labels[i], scores[i], 'HAN_sec', msg[i])
         else:
             for i, task_id in enumerate(task_ids):
             # for i,file in enumerate(sorted(files)):
                 # task_id = task_ids[i]
                 file = map_task_file[task_id]
-                if labels[i] == 1 and scores[i] < 0.75:
-                    labels[i] = 0
-                    scores[i] = -scores[i]
-                __res__.add_response(task_id, file.filename, hash_type, hash_value, labels[i], scores[i], 'HAN_sec')
+                # if labels[i] == 1 and scores[i] < 0.65:
+                #     labels[i] = 0
+                #     scores[i] = -scores[i]
+                __res__.add_response(task_id, file.filename, cf.hash_type, hash_value, labels[i], scores[i], 'HAN_sec')
 
 
 
